@@ -1,0 +1,13 @@
+app: query_tag_prediction
+
+filters:
+  manual_stopwords_list: ["hey","hi"]
+  manual_characters_list: ["<p>","</p>","<br>","\n"]
+  lowercase: True #True or False
+  manual_characters: True #True or False
+  emoji: True #True or False
+  punctuation: True #True or False
+  manual_stopwords: True #True or False
+
+
+
