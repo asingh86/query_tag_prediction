@@ -24,7 +24,7 @@ bert_config:
   final_layer_length: 12
   learning_rate: 3e-5
   batch_size: 32 #int
-  model_storage: '/app/model_files'
+  model_storage: './model_files'
 
 
 
