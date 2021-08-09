@@ -5,6 +5,7 @@ from tensorflow.python.keras.models import Model
 from utils import common
 import pickle
 import matplotlib.pyplot as plt
+from typing import Any, Dict
 
 __config = common.read_configs()
 
@@ -17,7 +18,7 @@ def build_bert_model() -> Model:
     outputs = encoder(encoder_inputs)
     net = outputs['pooled_output']
     net = tf.keras.layers.Dropout(__config['bert_config']['dropout'])(net)
-    net = tf.keras.layers.Dense(__config['bert_config']['final_layer_length'], activation=None, name='classifier')(net)
+    net = tf.keras.layers.Dense(__config['bert_config']['final_layer_length'], activation='softmax', name='classifier')(net)
 
     return tf.keras.Model(text_input, net)
 
@@ -36,8 +37,8 @@ def visualise_model_fitting_history(history_dict: Dict[str, Any]) -> None:
     plt.plot(epochs, train_accuracy, 'r', label='Training Accuracy')
     plt.plot(epochs, val_accuracy, 'b', label='Validation Accuracy')
     plt.title('Training and Validation Accuracy')
-    plt.ylable('Accuracy')
     plt.xlabel('Epochs')
+    plt.ylabel('Accuracy')
     plt.legend()
 
     plt.subplot(2, 1, 2)
@@ -45,7 +46,9 @@ def visualise_model_fitting_history(history_dict: Dict[str, Any]) -> None:
     plt.plot(epochs, val_loss, 'b', label='Validation Loss')
     plt.title('Training and Validation Loss')
     plt.xlabel('Epochs')
-    plt.ylable('Loss')
+    plt.ylabel('Loss')
     plt.legend()
+
+    return plt.show()
 
 

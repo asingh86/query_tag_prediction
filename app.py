@@ -6,41 +6,54 @@ from transformer import Transformer
 from utils import common
 import os
 import pickle
-
-__config = common.read_configs()
-t = Transformer()
-x_train, x_val, x_test, y_train, y_val, y_test = t.train_val_test_split()
+import numpy as np
+from sklearn.metrics import accuracy_score
 
 
-def model_fit():
+class Executor:
 
-    multiclass_model = bert.build_bert_model()
-    loss = tf.keras.losses.CategoricalCrossentropy()
-    metrics = tf.metrics.Accuracy()
-    optimizer = tf.keras.optimizers.Adam(learning_rate=__config['bert_config']['learning_rate'])
+    def __init__(self):
+        self.__config = common.read_configs()
+        self.x_train, self.x_val, self.x_test, self.y_train, self.y_val, self.y_test, self.target_label = Transformer().train_val_test_split()
 
-    multiclass_model.compile(optimizer=optimizer,
-                             loss=loss,
-                             metrics=metrics)
+    def model_fit_predict(self):
+        multiclass_model = bert.build_bert_model()
+        loss = tf.keras.losses.CategoricalCrossentropy()
+        metrics = tf.metrics.Accuracy()
+        optimizer = tf.keras.optimizers.Adam(learning_rate=self.__config['bert_config']['learning_rate'])
 
-    early_stopping = EarlyStopping(patience=3)
+        multiclass_model.compile(optimizer=optimizer,
+                                 loss=loss,
+                                 metrics=metrics)
 
-    history = multiclass_model.fit(x=tf.convert_to_tensor(x_train), y=tf.convert_to_tensor(y_train),
-                                   validation_data=(x_val, y_val), epochs=__config['bert_config']['epochs'],
-                                   callbacks=[early_stopping], batch_size=__config['bert_config']['batch_size'])
+        early_stopping = EarlyStopping(patience=self.__config['bert_config']['callback_patience'])
 
-    # save model
-    multiclass_model.save(os.join(__config['bert_config']['model_storage'], '/model'))
+        history = multiclass_model.fit(x=tf.convert_to_tensor(self.x_train), y=tf.convert_to_tensor(self.y_train),
+                                       validation_data=(self.x_val, self.y_val),
+                                       epochs=self.__config['bert_config']['epochs'],
+                                       callbacks=[early_stopping],
+                                       batch_size=self.__config['bert_config']['batch_size'])
 
-    # save history
-    #path = os.join(__config['bert_config']['model_storage'], '/fitting_history')
-    #with open(f'{path}.pickle', 'wb') as handle:
-    #    pickle.dump(object, handle, protocol=pickle.HIGHEST_PROTOCOL)
+        # save model
+        multiclass_model.save(self.__config['bert_config']['model_storage'])
 
-    predictions = multiclass_model.predict(x_test, )
+        # save history
+        path = os.path.join(self.__config['bert_config']['model_storage'], '/fitting_history')
+        with open(f'{path}.pickle', 'wb') as handle:
+            pickle.dump(object, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-    return history, multiclass_model
+    def perform_inference(self):
+        multiclass_model = tf.saved_model.load(self.__config['bert_config']['model_storage'])
+        predictions = multiclass_model(tf.convert_to_tensor(self.x_test))
 
+        y_pred = []
+        y_true = []
+        for i in range(2):
+            max_pred = np.argmax(predictions[i])
+            max_actual = np.argmax(self.y_test[i])
+            y_pred.append(self.target_label[max_pred])
+            y_true.append(self.target_label[max_actual])
 
+        overall_accuracy = accuracy_score(y_true, y_pred)
 
-
+        return overall_accuracy

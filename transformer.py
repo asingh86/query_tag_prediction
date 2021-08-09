@@ -70,11 +70,11 @@ class Transformer:
         y_val = np.array(y_val).astype(np.float32)
         y_test = np.array(y_test).astype(np.float32)
 
-        return x_train, x_val, x_test, y_train, y_val, y_test
+        return x_train, x_val, x_test, y_train, y_val, y_test, target_label
 
     def get_tensorflow_dataset(self):
 
-        x_train, x_val, x_test, y_train, y_val, y_test = self.train_val_test_split()
+        x_train, x_val, x_test, y_train, y_val, y_test, target_label = self.train_val_test_split()
 
         x_train = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(x_train))
         x_val = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(x_val))
@@ -83,4 +83,4 @@ class Transformer:
         y_val = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(y_val))
         y_test = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(y_test))
 
-        return x_train, x_val, x_test, y_train, y_val, y_test
+        return x_train, x_val, x_test, y_train, y_val, y_test, target_label
