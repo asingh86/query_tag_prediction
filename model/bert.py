@@ -3,6 +3,7 @@ import tensorflow_hub as hub
 import tensorflow_text as text
 from tensorflow.python.keras.models import Model
 from utils import common
+import pickle
 
 __config = common.read_configs()
 
@@ -18,7 +19,3 @@ def build_bert_model() -> Model:
     net = tf.keras.layers.Dense(__config['bert_config']['final_layer_length'], activation=None, name='classifier')(net)
 
     return tf.keras.Model(text_input, net)
-
-
-def persist_model(multiclass_model: Model) -> None:
-    multiclass_model.save(__config['bert_config']['model_storage'])

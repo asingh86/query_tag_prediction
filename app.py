@@ -4,6 +4,8 @@ from tensorflow.keras.callbacks import EarlyStopping
 from model import bert
 from transformer import Transformer
 from utils import common
+import os
+import pickle
 
 __config = common.read_configs()
 t = Transformer()
@@ -26,8 +28,13 @@ def model_fit():
     history = multiclass_model.fit(x=tf.convert_to_tensor(x_train), y=tf.convert_to_tensor(y_train),
                                    validation_data=(x_val, y_val), epochs=5, callbacks=[early_stopping])
 
+    # save model
     multiclass_model.save(__config['bert_config']['model_storage'])
 
-    return history
+    # save history
+    path = os.join(__config['bert_config']['model_storage'],'/','fitting_history')
+    with open(f'{path}.pickle', 'wb') as handle:
+        pickle.dump(object, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
+    return history
 
