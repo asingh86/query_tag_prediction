@@ -26,15 +26,21 @@ def model_fit():
     early_stopping = EarlyStopping(patience=3)
 
     history = multiclass_model.fit(x=tf.convert_to_tensor(x_train), y=tf.convert_to_tensor(y_train),
-                                   validation_data=(x_val, y_val), epochs=5, callbacks=[early_stopping])
+                                   validation_data=(x_val, y_val), epochs=__config['bert_config']['epochs'],
+                                   callbacks=[early_stopping], batch_size=__config['bert_config']['batch_size'])
 
     # save model
-    multiclass_model.save(__config['bert_config']['model_storage'])
+    multiclass_model.save(os.join(__config['bert_config']['model_storage'], '/model'))
 
     # save history
-    path = os.join(__config['bert_config']['model_storage'],'/','fitting_history')
-    with open(f'{path}.pickle', 'wb') as handle:
-        pickle.dump(object, handle, protocol=pickle.HIGHEST_PROTOCOL)
+    #path = os.join(__config['bert_config']['model_storage'], '/fitting_history')
+    #with open(f'{path}.pickle', 'wb') as handle:
+    #    pickle.dump(object, handle, protocol=pickle.HIGHEST_PROTOCOL)
 
-    return history
+    predictions = multiclass_model.predict(x_test, )
+
+    return history, multiclass_model
+
+
+
 

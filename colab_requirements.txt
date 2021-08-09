@@ -12,3 +12,4 @@ tensorflow-hub==0.12.0
 tensorflow-text==2.5.0
 pydot==1.4.2
 graphviz==0.17
+matplotlib==3.4.2
