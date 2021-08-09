@@ -57,3 +57,4 @@ class Executor:
         overall_accuracy = accuracy_score(y_true, y_pred)
 
         return overall_accuracy
+

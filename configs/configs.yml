@@ -25,7 +25,7 @@ bert_config:
   learning_rate: 0.01
   batch_size: 32 #int
   model_storage: './model_files'
-  epochs: 3
+  epochs: 5
   callback_patience: 2
 
 
