@@ -1,0 +1,32 @@
+app: query_tag_prediction
+
+file_path: './data/anonymous labeled conversations.json'
+
+filters:
+  manual_stopwords_list: ["hey","hi"]
+  manual_characters_list: ["<p>","</p>","<br>","\n"]
+  lowercase: True #True or False
+  manual_characters: True #True or False
+  emoji: True #True or False
+  punctuation: True #True or False
+  manual_stopwords: True #True or False
+
+parameters:
+  seed: 123 #int
+  train_sample: 0.8 #float
+  validation_sample: 0.1 #float
+  test_sample: 0.1 #float
+
+bert_config:
+  tfhub_handle_encoder: 'https://tfhub.dev/tensorflow/small_bert/bert_en_uncased_L-4_H-512_A-8/1'
+  tfhub_handle_preprocess: 'https://tfhub.dev/tensorflow/bert_en_uncased_preprocess/3'
+  dropout: 0.1
+  final_layer_length: 12
+  learning_rate: 0.01
+  batch_size: 32 #int
+  model_storage: './model_files'
+  epochs: 3
+  callback_patience: 2
+
+
+
