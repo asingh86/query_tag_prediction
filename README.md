@@ -5,7 +5,8 @@ There are 3 tags available in the dataset and for the purpose of
 this project we'll be focusing on 'tag1'.  
 
 The entire program has been build and tested locally before training on 
-google colab (due to extra compute resources required to run a Bert model)
+google colab (due to extra compute resources required to run a Bert model). Please open colab_notebook for the 
+experiment run and results.
 
 The program has been developed with Docker (in order to isolate requirements from packages).
 In order to use/run local_notebook you need to follow the below steps:

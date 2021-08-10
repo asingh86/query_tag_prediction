@@ -72,15 +72,4 @@ class Transformer:
 
         return x_train, x_val, x_test, y_train, y_val, y_test, target_label
 
-    def get_tensorflow_dataset(self):
 
-        x_train, x_val, x_test, y_train, y_val, y_test, target_label = self.train_val_test_split()
-
-        x_train = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(x_train))
-        x_val = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(x_val))
-        x_test = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(x_test))
-        y_train = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(y_train))
-        y_val = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(y_val))
-        y_test = tf.data.Dataset.from_tensor_slices(tf.convert_to_tensor(y_test))
-
-        return x_train, x_val, x_test, y_train, y_val, y_test, target_label
