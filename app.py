@@ -16,7 +16,7 @@ class Executor:
         self.__config = common.read_configs()
         self.x_train, self.x_val, self.x_test, self.y_train, self.y_val, self.y_test, self.target_label = Transformer().train_val_test_split()
 
-    def model_fit_predict(self):
+    def model_fit(self):
         multiclass_model = bert.build_bert_model()
         loss = tf.keras.losses.CategoricalCrossentropy()
         metrics = tf.metrics.Accuracy()
@@ -57,3 +57,4 @@ class Executor:
         overall_accuracy = accuracy_score(y_true, y_pred)
 
         return overall_accuracy
+
