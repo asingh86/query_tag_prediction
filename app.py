@@ -48,7 +48,7 @@ class Executor:
 
         y_pred = []
         y_true = []
-        for i in range(2):
+        for i in range(len(self.y_test)):
             max_pred = np.argmax(predictions[i])
             max_actual = np.argmax(self.y_test[i])
             y_pred.append(self.target_label[max_pred])
