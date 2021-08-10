@@ -17,3 +17,4 @@ In order to use/run local_notebook you need to follow the below steps:
    
 In order to view the overall project and outputs, please refer to colab_notebook.
 
+Please refer to https://github.com/asingh86/query_tag_prediction.git for the most up to date code.
