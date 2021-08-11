@@ -17,6 +17,7 @@ class Executor:
         self.x_train, self.x_val, self.x_test, self.y_train, self.y_val, self.y_test, self.target_label = Transformer().train_val_test_split()
 
     def model_fit(self):
+        """This function calls the model object and perform the model fitting"""
         multiclass_model = bert.build_bert_model()
         loss = tf.keras.losses.CategoricalCrossentropy()
         metrics = tf.metrics.Accuracy()
