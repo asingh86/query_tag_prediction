@@ -29,7 +29,7 @@ class BertModel:
 
         return tf.keras.Model(text_input, net)
 
-    def model_fit(self, x_train: np.ndarray, x_val: np.ndarray, y_train: np.ndarray, y_val: np.ndarray) -> (Model, Dict):
+    def model_fit(self, x_train, x_val, y_train, y_val) -> (Model, Dict):
         """This function calls the model object and perform the model fitting"""
         multiclass_model = self.build_bert_model()
         loss = tf.keras.losses.CategoricalCrossentropy()
@@ -58,9 +58,9 @@ class BertModel:
 
         return multiclass_model, history
 
-    def perform_inference(self, x_test: np.ndarray) -> float:
+    def perform_inference(self, x_test) -> float:
         multiclass_model = tf.saved_model.load(self.__config['bert_config']['model_storage'])
-        y_pred = multiclass_model(tf.convert_to_tensor(self.x_test))
+        y_pred = multiclass_model(tf.convert_to_tensor(x_test))
 
         return y_pred
 
