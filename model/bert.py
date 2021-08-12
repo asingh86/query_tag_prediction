@@ -11,6 +11,7 @@ __config = common.read_configs()
 
 
 def build_bert_model() -> Model:
+    """build the bert model from tensorflow hub, the model also handles the text preprocessing as well"""
     text_input = tf.keras.layers.Input(shape=(), dtype=tf.string, name='text')
     preprocessing_layer = hub.KerasLayer(__config['bert_config']['tfhub_handle_preprocess'], name='preprocessing')
     encoder_inputs = preprocessing_layer(text_input)

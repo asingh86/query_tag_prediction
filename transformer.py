@@ -20,6 +20,7 @@ class Transformer:
         self.__test_sample = test_sample
 
     def read_and_clean_data(self):
+        """read the json file and process the text"""
         queries = []
         t = TextProcessing()
         with open(self.__config['file_path'], ) as f:
@@ -31,6 +32,7 @@ class Transformer:
         return queries
 
     def one_hot_target_transformation(self, target: str = 'tag1'):
+        """one hot encoding of target feature"""
         queries = self.read_and_clean_data()
         df = pd.DataFrame(queries)
         one_hot = pd.get_dummies(df[target])
@@ -38,6 +40,7 @@ class Transformer:
         return df
 
     def get_feature(self):
+        """converts dataframe features to numpy array as model input"""
         df = self.one_hot_target_transformation()
 
         text = []
@@ -50,6 +53,7 @@ class Transformer:
         return text, target, target_label
 
     def train_val_test_split(self):
+        """splits the data into relevant train test and validation"""
 
         text, target, target_label = self.get_feature()
 
