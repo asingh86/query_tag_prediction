@@ -22,7 +22,7 @@ bert_config:
   tfhub_handle_preprocess: 'https://tfhub.dev/tensorflow/bert_en_uncased_preprocess/3'
   dropout: 0.1
   final_layer_length: 12
-  learning_rate: 0.01
+  learning_rate: 0.001
   batch_size: 32 #int
   model_storage: './model_files'
   epochs: 5

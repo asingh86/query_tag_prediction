@@ -20,7 +20,7 @@ class Executor:
         """This function calls the model object and perform the model fitting"""
         multiclass_model = bert.build_bert_model()
         loss = tf.keras.losses.CategoricalCrossentropy()
-        metrics = tf.metrics.Accuracy()
+        metrics = tf.metrics.CategoricalAccuracy()
         optimizer = tf.keras.optimizers.Adam(learning_rate=self.__config['bert_config']['learning_rate'])
 
         multiclass_model.compile(optimizer=optimizer,
@@ -45,17 +45,10 @@ class Executor:
 
     def perform_inference(self):
         multiclass_model = tf.saved_model.load(self.__config['bert_config']['model_storage'])
-        predictions = multiclass_model(tf.convert_to_tensor(self.x_test))
+        y_pred = multiclass_model(tf.convert_to_tensor(self.x_test))
 
-        y_pred = []
-        y_true = []
-        for i in range(len(self.y_test)):
-            max_pred = np.argmax(predictions[i])
-            max_actual = np.argmax(self.y_test[i])
-            y_pred.append(self.target_label[max_pred])
-            y_true.append(self.target_label[max_actual])
+        m = tf.keras.metrics.CategoricalAccuracy()
+        m.update_state(self.y_test, y_pred)
 
-        overall_accuracy = accuracy_score(y_true, y_pred)
-
-        return overall_accuracy
+        return m.result().numpy()
 
