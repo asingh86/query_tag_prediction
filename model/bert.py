@@ -58,8 +58,8 @@ class BertModel:
 
         return multiclass_model, history
 
-    def perform_inference(self, x_test) -> float:
-        multiclass_model = tf.saved_model.load(self.__config['bert_config']['model_storage'])
+    @staticmethod
+    def perform_inference(multiclass_model: Model, x_test) -> float:
         y_pred = multiclass_model(tf.convert_to_tensor(x_test))
 
         return y_pred
