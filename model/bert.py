@@ -59,10 +59,8 @@ class BertModel:
         return multiclass_model, history
 
     @staticmethod
-    def perform_inference(multiclass_model: Model, x_test) -> float:
-        y_pred = multiclass_model(tf.convert_to_tensor(x_test))
-
-        return y_pred
+    def perform_inference(multiclass_model: Model, x_test):
+        return multiclass_model(tf.convert_to_tensor(x_test))
 
     @staticmethod
     def visualise_model_fitting_history(history_dict: Dict[str, Any]) -> None:
