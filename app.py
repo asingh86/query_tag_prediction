@@ -12,7 +12,7 @@ def model_fit_predict():
 
     multiclass_model, history = b.model_fit(x_train, x_val, y_train, y_val)
 
-    y_pred = b.perform_inference(x_test)
+    y_pred = b.perform_inference(multiclass_model, x_test)
     accuracy = metrics.categorical_accuracy(y_test, y_pred)
 
     return accuracy
